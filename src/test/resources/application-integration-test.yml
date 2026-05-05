@@ -1,0 +1,38 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  mail:
+    host: localhost
+    port: 3025
+    username: test
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+app:
+  mail:
+    from: test@test.com
+    admin-email: admin@test.com
+
+jwt:
+  secret: Y29tcGxpYW5jZS1jYWxlbmRhci10cmFja2VyLXNlY3JldC1rZXktMjAyNg==
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000
+
+logging:
+  level:
+    com.example.tool: INFO
+    org.springframework.security: WARN
+    org.flywaydb: WARN
+    org.testcontainers: WARN
+    com.github.dockerjava: WARN
