@@ -17,6 +17,8 @@ import java.util.List;
 @Slf4j
 public class ComplianceScheduler {
 
+    private static final LocalDate EPOCH_START = LocalDate.of(2000, 1, 1);
+
     private final ComplianceRepository complianceRepository;
     private final EmailService emailService;
 
@@ -26,7 +28,7 @@ public class ComplianceScheduler {
     @Scheduled(cron = "0 0 0 * * *")
     public void markOverdueRecords() {
         List<Compliance> overdue = complianceRepository
-                .findByIsDeletedFalseAndDueDateBetween(LocalDate.of(2000, 1, 1), LocalDate.now().minusDays(1))
+                .findByIsDeletedFalseAndDueDateBetween(EPOCH_START, LocalDate.now().minusDays(1))
                 .stream()
                 .filter(c -> "PENDING".equals(c.getStatus()))
                 .toList();

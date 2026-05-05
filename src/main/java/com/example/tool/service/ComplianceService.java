@@ -36,18 +36,20 @@ public class ComplianceService {
     })
     public Compliance createRecord(ComplianceRequest request) {
         validate(request);
-        log.info("Cache evicted on createRecord - cache: complianceRecords, complianceById");
         Compliance c = new Compliance();
         c.setTitle(request.getTitle());
         c.setDescription(request.getDescription());
         c.setStatus(request.getStatus());
         c.setDueDate(request.getDueDate());
         Compliance saved = complianceRepository.save(c);
+        log.info("Compliance record created with id: {}", saved.getId());
         emailService.sendComplianceCreatedEmail(notificationRecipient, saved);
         return saved;
     }
 
-    @Cacheable(value = "complianceRecords", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort", unless = "#result == null")
+    @Cacheable(value = "complianceRecords",
+            key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort",
+            unless = "#result == null")
     public Page<Compliance> getAllRecords(Pageable pageable) {
         log.info("Cache MISS - fetching complianceRecords from DB for page: {}", pageable.getPageNumber());
         return complianceRepository.findByIsDeletedFalse(pageable);
@@ -66,14 +68,15 @@ public class ComplianceService {
     })
     public Compliance updateRecord(Long id, ComplianceRequest request) {
         validate(request);
-        log.info("Cache evicted on updateRecord - id: {}", id);
         Compliance c = complianceRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Compliance record not found with id: " + id));
         c.setTitle(request.getTitle());
         c.setDescription(request.getDescription());
         c.setStatus(request.getStatus());
         c.setDueDate(request.getDueDate());
-        return complianceRepository.save(c);
+        Compliance updated = complianceRepository.save(c);
+        log.info("Compliance record updated with id: {}", id);
+        return updated;
     }
 
     @Caching(evict = {
@@ -81,11 +84,11 @@ public class ComplianceService {
             @CacheEvict(value = "complianceById",    key = "#id")
     })
     public void deleteRecord(Long id) {
-        log.info("Cache evicted on deleteRecord - id: {}", id);
         Compliance c = complianceRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Compliance record not found with id: " + id));
         c.setDeleted(true);
         complianceRepository.save(c);
+        log.info("Compliance record soft-deleted with id: {}", id);
     }
 
     public List<Compliance> search(String keyword) {
@@ -102,13 +105,6 @@ public class ComplianceService {
                 "closed",    complianceRepository.countByStatusAndIsDeletedFalse("CLOSED")
         );
     }
-
-    // --- legacy delegates ---
-    public List<Compliance> getAll()                            { return complianceRepository.findAll(); }
-    public Compliance getById(Long id)                          { return getRecordById(id); }
-    public Compliance create(ComplianceRequest r)               { return createRecord(r); }
-    public Compliance update(Long id, ComplianceRequest r)      { return updateRecord(id, r); }
-    public void delete(Long id)                                 { deleteRecord(id); }
 
     private void validate(ComplianceRequest r) {
         if (r.getTitle() == null || r.getTitle().isBlank())

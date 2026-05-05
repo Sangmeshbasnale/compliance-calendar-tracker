@@ -52,11 +52,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable) // CSRF disabled — stateless JWT API, no session cookies
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // public
                 .requestMatchers("/auth/**").permitAll()
+                // swagger ui
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html",
+                        "/v3/api-docs/**", "/v3/api-docs").permitAll()
                 // file upload - admin + manager
                 .requestMatchers(HttpMethod.POST, "/api/files/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER")
                 // file download - all authenticated

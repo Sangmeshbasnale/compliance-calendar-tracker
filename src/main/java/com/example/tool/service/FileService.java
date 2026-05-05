@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,7 +55,12 @@ public class FileService {
 
         String extension  = getExtension(file.getOriginalFilename());
         String storedName = UUID.randomUUID() + "." + extension;
-        Path   targetPath = uploadPath.resolve(storedName);
+        Path   targetPath = uploadPath.resolve(storedName).normalize();
+
+        // Path traversal guard — ensure resolved path stays within upload directory
+        if (!targetPath.startsWith(uploadPath)) {
+            throw new InvalidDataException("Invalid file path detected");
+        }
 
         Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
         log.info("File stored: {}", targetPath);
@@ -101,6 +107,6 @@ public class FileService {
 
     private String getExtension(String filename) {
         if (filename == null || !filename.contains(".")) return "bin";
-        return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase(Locale.ROOT);
     }
 }

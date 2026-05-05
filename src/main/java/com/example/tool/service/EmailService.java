@@ -31,7 +31,7 @@ public class EmailService {
             mailSender.send(message);
             log.info("Email sent to: {} | subject: {}", to, subject);
         } catch (MessagingException e) {
-            log.error("Failed to send email to: {} | reason: {}", to, e.getMessage());
+            log.error("Failed to send email to: {}", to, e);
         }
     }
 
@@ -45,8 +45,8 @@ public class EmailService {
             ctx.setVariable("dueDate",     compliance.getDueDate());
             String content = templateEngine.process("emails/compliance-created", ctx);
             sendEmail(to, "New Compliance Record Created: " + compliance.getTitle(), content);
-        } catch (Exception e) {
-            log.error("Failed to send compliance-created email for id: {} | reason: {}", compliance.getId(), e.getMessage());
+        } catch (MessagingException e) {
+            log.error("Failed to send compliance-created email for id: {}", compliance.getId(), e);
         }
     }
 
@@ -59,8 +59,8 @@ public class EmailService {
             ctx.setVariable("status",  compliance.getStatus());
             String content = templateEngine.process("emails/compliance-overdue", ctx);
             sendEmail(to, "Overdue Compliance Alert: " + compliance.getTitle(), content);
-        } catch (Exception e) {
-            log.error("Failed to send overdue email for id: {} | reason: {}", compliance.getId(), e.getMessage());
+        } catch (MessagingException e) {
+            log.error("Failed to send overdue email for id: {}", compliance.getId(), e);
         }
     }
 }
