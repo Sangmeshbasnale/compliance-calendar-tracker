@@ -83,9 +83,9 @@ public class AuditLoggingAspect {
             log.setNewValue(newValue);
             log.setPerformedBy(currentUsername());
             auditLogRepository.save(log);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             // Audit failure must never break the main operation
-            this.log.error("Audit log failed [{} {}]: {}", action, entityId, e.getMessage());
+            this.log.error("Audit log failed [{} {}]: {}", action, entityId, e.getMessage(), e);
         }
     }
 
@@ -93,7 +93,8 @@ public class AuditLoggingAspect {
         if (obj == null) return null;
         try {
             return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            this.log.warn("Failed to serialize object to JSON: {}", e.getMessage(), e);
             return null;
         }
     }

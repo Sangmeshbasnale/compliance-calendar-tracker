@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class AdminController {
 
     private final UserRepository userRepository;
@@ -51,9 +50,9 @@ public class AdminController {
 
         String newRole = body.get("role");
         try {
-            user.setRole(com.example.tool.entity.Role.valueOf(newRole.toUpperCase()));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid role: " + newRole);
+            user.setRole(com.example.tool.entity.Role.valueOf(newRole.toUpperCase(java.util.Locale.ROOT)));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + newRole, e);
         }
 
         userRepository.save(user);

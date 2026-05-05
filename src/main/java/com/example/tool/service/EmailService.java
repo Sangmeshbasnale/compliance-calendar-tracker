@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Sends HTML emails using JavaMailSender + Thymeleaf templates.
@@ -24,6 +25,12 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
+    private static final Set<String> ALLOWED_TEMPLATES = Set.of(
+            "email/compliance-created",
+            "email/compliance-overdue",
+            "email/weekly-summary"
+    );
 
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
@@ -97,6 +104,11 @@ public class EmailService {
     // ── Internal helper ───────────────────────────────────────────
 
     private void sendHtml(String to, String subject, String template, Context ctx) {
+        // Validate template name against known safe templates to prevent path traversal
+        if (!ALLOWED_TEMPLATES.contains(template)) {
+            log.error("Rejected unknown email template: {}", template);
+            return;
+        }
         try {
             String html = templateEngine.process(template, ctx);
             MimeMessage message = mailSender.createMimeMessage();
@@ -108,7 +120,7 @@ public class EmailService {
             mailSender.send(message);
             log.info("Email sent to {} | subject: {}", to, subject);
         } catch (MessagingException e) {
-            log.error("Failed to send email to {} | subject: {} | error: {}", to, subject, e.getMessage());
+            log.error("Failed to send email to {} | subject: {} | error: {}", to, subject, e.getMessage(), e);
         }
     }
 }

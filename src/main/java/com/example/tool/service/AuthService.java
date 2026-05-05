@@ -40,9 +40,9 @@ public class AuthService {
         Role role = Role.VIEWER;
         if (request.getRole() != null && !request.getRole().isBlank()) {
             try {
-                role = Role.valueOf(request.getRole().toUpperCase());
+                role = Role.valueOf(request.getRole().toUpperCase(java.util.Locale.ROOT));
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid role: " + request.getRole());
+                throw new IllegalArgumentException("Invalid role: " + request.getRole(), e);
             }
         }
 

@@ -29,7 +29,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/compliance")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class ComplianceController {
 
     private final ComplianceService complianceService;

@@ -63,10 +63,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (Exception e) {
-            // Token is invalid/expired – let the request continue unauthenticated.
+        } catch (io.jsonwebtoken.JwtException e) {
+            // Invalid/expired JWT — let the request continue unauthenticated.
             // Spring Security will return 401 for protected endpoints.
             logger.debug("JWT authentication failed: " + e.getMessage());
+        } catch (org.springframework.security.core.userdetails.UsernameNotFoundException e) {
+            logger.debug("JWT user not found: " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);

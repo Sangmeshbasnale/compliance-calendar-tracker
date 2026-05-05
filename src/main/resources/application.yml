@@ -52,3 +52,5 @@ app:
   mail:
     from: your-email@gmail.com
     admin-email: admin@yourcompany.com
+  cors:
+    allowed-origins: http://localhost:5173
