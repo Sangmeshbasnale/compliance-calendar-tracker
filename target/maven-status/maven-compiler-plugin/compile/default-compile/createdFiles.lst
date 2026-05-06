@@ -18,6 +18,7 @@ com\example\tool\dto\AuthResponse.class
 com\example\tool\aspect\AuditLoggingAspect.class
 com\example\tool\exception\GlobalExceptionHandler.class
 com\example\tool\config\SecurityConfig.class
+com\example\tool\controller\HealthController.class
 com\example\tool\scheduler\ComplianceScheduler.class
 com\example\tool\dto\RegisterRequest.class
 com\example\tool\entity\Compliance.class

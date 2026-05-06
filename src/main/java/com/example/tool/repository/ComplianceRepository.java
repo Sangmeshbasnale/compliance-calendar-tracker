@@ -16,6 +16,8 @@ public interface ComplianceRepository extends JpaRepository<Compliance, Long> {
 
     List<Compliance> findByStatus(String status);
 
+    long countByStatus(String status);
+
     @Query("SELECT c FROM Compliance c WHERE LOWER(c.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Compliance> searchByTitle(@Param("keyword") String keyword, Pageable pageable);
 

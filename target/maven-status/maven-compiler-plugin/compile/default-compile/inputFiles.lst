@@ -5,6 +5,7 @@ C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\config\Se
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\controller\AdminController.java
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\controller\AuthController.java
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\controller\ComplianceController.java
+C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\controller\HealthController.java
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\dto\AuthResponse.java
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\dto\ComplianceRequest.java
 C:\campuspe\compliance-calendar-tracker\src\main\java\com\example\tool\dto\ComplianceResponse.java

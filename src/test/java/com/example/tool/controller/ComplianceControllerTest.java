@@ -78,7 +78,7 @@ class ComplianceControllerTest {
 
     @Test
     void testCreate() throws Exception {
-        Mockito.when(complianceService.create(any(ComplianceRequest.class))).thenReturn(compliance);
+        Mockito.when(complianceService.create(org.mockito.ArgumentMatchers.any(ComplianceRequest.class))).thenReturn(compliance);
 
         mockMvc.perform(post("/api/compliance")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ class ComplianceControllerTest {
 
     @Test
     void testUpdate() throws Exception {
-        Mockito.when(complianceService.update(eq(1L), any(ComplianceRequest.class)))
+        Mockito.when(complianceService.update(eq(1L), org.mockito.ArgumentMatchers.any(ComplianceRequest.class)))
                .thenReturn(compliance);
 
         mockMvc.perform(put("/api/compliance/1")

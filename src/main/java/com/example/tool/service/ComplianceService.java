@@ -26,8 +26,8 @@ public class ComplianceService {
     private final UserRepository userRepository;
 
     public Page<Compliance> getAll(int page, int size, String sortBy, String sortDir) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending().and(Sort.by("id").ascending())
+                : Sort.by(sortBy).descending().and(Sort.by("id").ascending());
         return complianceRepository.findAll(PageRequest.of(page, size, sort));
     }
 
@@ -74,17 +74,17 @@ public class ComplianceService {
     }
 
     public Page<Compliance> search(String keyword, int page, int size, String sortBy, String sortDir) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending().and(Sort.by("id").ascending())
+                : Sort.by(sortBy).descending().and(Sort.by("id").ascending());
         return complianceRepository.searchByTitle(keyword, PageRequest.of(page, size, sort));
     }
 
     public Map<String, Long> getStats() {
         Map<String, Long> stats = new HashMap<>();
         stats.put("total", complianceRepository.count());
-        stats.put("pending", (long) complianceRepository.findByStatus("PENDING").size());
-        stats.put("completed", (long) complianceRepository.findByStatus("COMPLETED").size());
-        stats.put("overdue", (long) complianceRepository.findByStatus("OVERDUE").size());
+        stats.put("pending", complianceRepository.countByStatus("PENDING"));
+        stats.put("completed", complianceRepository.countByStatus("COMPLETED"));
+        stats.put("overdue", complianceRepository.countByStatus("OVERDUE"));
         return stats;
     }
 }

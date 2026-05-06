@@ -1,3 +1,7 @@
 C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\ComplianceTrackerApplicationTests.java
+C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\config\AbstractIntegrationTest.java
 C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\controller\ComplianceControllerTest.java
 C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\controller\ComplianceIntegrationTest.java
+C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\integration\AdminIntegrationTest.java
+C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\integration\AuthIntegrationTest.java
+C:\campuspe\compliance-calendar-tracker\src\test\java\com\example\tool\integration\ComplianceIntegrationTest.java

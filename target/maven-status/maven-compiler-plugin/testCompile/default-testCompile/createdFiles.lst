@@ -1,1 +1,7 @@
 com\example\tool\ComplianceTrackerApplicationTests.class
+com\example\tool\integration\AdminIntegrationTest.class
+com\example\tool\integration\ComplianceIntegrationTest.class
+com\example\tool\config\AbstractIntegrationTest.class
+com\example\tool\controller\ComplianceIntegrationTest.class
+com\example\tool\integration\AuthIntegrationTest.class
+com\example\tool\controller\ComplianceControllerTest.class
