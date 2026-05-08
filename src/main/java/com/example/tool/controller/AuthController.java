@@ -28,6 +28,14 @@ public class AuthController {
 
     // ── Register ─────────────────────────────────────────────────
 
+    @Operation(
+            summary = "Register a new user",
+            description = "Registers a new user with ROLE_VIEWER and returns a JWT token. Username must be unique.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User registered successfully, JWT token returned"),
+            @ApiResponse(responseCode = "400", description = "Username already exists or invalid input"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {

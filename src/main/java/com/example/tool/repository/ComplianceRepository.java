@@ -10,11 +10,22 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ComplianceRepository extends JpaRepository<Compliance, Long> {
 
-    List<Compliance> findByStatus(String status);
+    // Paginated list — active records only
+    Page<Compliance> findByIsDeletedFalse(Pageable pageable);
+
+    // Single active record
+    Optional<Compliance> findByIdAndIsDeletedFalse(Long id);
+
+    // Existence check on active records
+    boolean existsByIdAndIsDeletedFalse(Long id);
+
+    // Status counts — active records only
+    long countByStatusAndIsDeletedFalse(String status);
 
     long countByStatus(String status);
 

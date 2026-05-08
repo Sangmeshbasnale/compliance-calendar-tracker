@@ -13,7 +13,24 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: false
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: false
+        debug: false
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: ${MAX_FILE_SIZE:10MB}
+      max-request-size: ${MAX_REQUEST_SIZE:10MB}
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -33,6 +50,17 @@ spring:
 
 server:
   port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:default-secret-change-in-production-must-be-32-chars}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+notification:
+  email:
+    recipient: ${NOTIFICATION_EMAIL:admin@example.com}
+
+file:
+  upload-dir: ${FILE_UPLOAD_DIR:uploads}
 
 logging:
   level:

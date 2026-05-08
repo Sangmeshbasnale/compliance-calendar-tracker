@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header { background-color: #4CAF50; padding: 24px; text-align: center; color: white; }
+        .header h1 { margin: 0; font-size: 22px; }
+        .body { padding: 24px; color: #333333; }
+        .field { margin-bottom: 12px; }
+        .label { font-weight: bold; color: #555; }
+        .value { margin-top: 4px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; background-color: #e8f5e9; color: #2e7d32; font-size: 13px; font-weight: bold; }
+        .footer { background-color: #f9f9f9; padding: 16px; text-align: center; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>✅ New Compliance Record Created</h1>
+    </div>
+    <div class="body">
+        <p>A new compliance record has been successfully created. Here are the details:</p>
+        <div class="field">
+            <div class="label">Title</div>
+            <div class="value" th:text="${title}"></div>
+        </div>
+        <div class="field">
+            <div class="label">Description</div>
+            <div class="value" th:text="${description} ?: 'N/A'"></div>
+        </div>
+        <div class="field">
+            <div class="label">Status</div>
+            <div class="value"><span class="badge" th:text="${status}"></span></div>
+        </div>
+        <div class="field">
+            <div class="label">Due Date</div>
+            <div class="value" th:text="${dueDate}"></div>
+        </div>
+        <p>Please ensure this record is reviewed and actioned before the due date.</p>
+    </div>
+    <div class="footer">
+        &copy; Compliance Calendar Tracker &mdash; This is an automated notification.
+    </div>
+</div>
+</body>
+</html>

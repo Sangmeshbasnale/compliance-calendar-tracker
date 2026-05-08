@@ -3,13 +3,27 @@ package com.example.tool;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+        "spring.flyway.enabled=false",
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1",
+        "spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.datasource.username=sa",
+        "spring.datasource.password=",
+        "spring.data.redis.host=localhost",
+        "spring.data.redis.port=6379",
+        "spring.cache.type=none",
+        "spring.mail.host=localhost",
+        "spring.mail.port=25"
+})
 class ComplianceTrackerApplicationTests {
 
     @Test
     void contextLoads() {
-        // Verifies that the Spring application context starts up without errors
+        // Verifies the Spring application context starts without errors
     }
 }
